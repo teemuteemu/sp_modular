@@ -1,13 +1,22 @@
 import React from 'react';
+
+import Module from './components/common/Module';
+
+import AudioOut from './modules/AudioOut';
+import Noise from './modules/Noise';
+
 import '../styles/index.scss';
 
 export default class App extends React.Component {
   render() {
+    const modules = [
+      AudioOut,
+      Noise
+    ];
+
     return (
-      <div>
-        <h1>It Works!</h1>
-        <p>This React project just works including <span className="redBg">module</span> local styles.</p>
-        <p>Enjoy!</p>
+      <div className="patcher">
+        { modules.map(m => <Module key={m.name} moduleDef={m} />) }
       </div>
     )
   }
