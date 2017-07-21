@@ -7,7 +7,7 @@ import Noise from './modules/Noise';
 
 import '../styles/index.scss';
 
-export default class App extends React.Component {
+export default class Patcher extends React.Component {
   render() {
     const modules = [
       AudioOut,

@@ -1,16 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import App from './app.jsx';
+import Patcher from './patcher';
 
-render( <AppContainer><App/></AppContainer>, document.querySelector("#app"));
+render( <AppContainer><Patcher/></AppContainer>, document.querySelector("#app"));
 
 if (module && module.hot) {
-  module.hot.accept('./app.jsx', () => {
-    const App = require('./app.jsx').default;
+  module.hot.accept('./patcher.js', () => {
+    const App = require('./patcher.js').default;
     render(
       <AppContainer>
-        <App/>
+        <Patcher />
       </AppContainer>,
       document.querySelector("#app")
     );
