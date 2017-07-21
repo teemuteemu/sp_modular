@@ -1,23 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Module from './components/common/Module';
 
-import AudioOut from './modules/AudioOut';
-import Noise from './modules/Noise';
-
 import '../styles/index.scss';
 
-export default class Patcher extends React.Component {
-  render() {
-    const modules = [
-      AudioOut,
-      Noise
-    ];
+const Patcher = ({ patch }) => {
+  return (
+    <div className="patcher">
+      { patch.modules.map(m => <Module key={m.name} moduleDef={m} />) }
+    </div>
+  )
+}
 
-    return (
-      <div className="patcher">
-        { modules.map(m => <Module key={m.name} moduleDef={m} />) }
-      </div>
-    )
+function mapStateToProps (state) {
+  return state;
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    moveModule: null
   }
 }
+export default connect(mapStateToProps, mapDispatchToProps)(Patcher);

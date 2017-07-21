@@ -1,5 +1,6 @@
 const componentTemplate = {
   name: '',
+  priority: 0,
   inlets: [],
   outlets: [],
   src: '',
