@@ -4,7 +4,7 @@ This is an experiment for implementing a naive modular synthesizer using WebAudi
 
 My previous attempts to create such a system have ended up failing since using multiple ScriptProcessorNodes (one per module) simply won't provide the needed performance and the overhead of one script processor per one module is just too high. So this way of implementing a modular synthesizer system has proven to be too performance heavy.
 
-In this experiment though the idea is to discard the concept of using multiple script processors. Instead in this experiment the whole modular system in will be "complid" into a single ScriptProcessorNode, and the code of each modules will be compiled into a single function. Picture below will try to explain the idea:
+In this experiment though the idea is to discard the concept of using multiple script processor nodes. Instead of multiple nodes the whole modular system in will be "compiled" into a single ScriptProcessorNode, the whole patch with all the modules will result a single ScriptProcessorNode and a single function. Picture below tries to explain the idea.
 
 Let's consider following naive system with two modules.
 
@@ -15,17 +15,17 @@ Let's consider following naive system with two modules.
 ----------       -------------
 ```
 
-Noise module:
+Noise module is basically just generating random values to it's outlet:
 ```
 OUTLET_NOISE[i] = Math.random();
 ```
 
-Audio Out module:
+While Audio Out module is just reading it's inlet and pushing that into audio out buffer:
 ```
 OUT_BUFFER[i] = INLET_AUDIO_OUT[i];
 ```
 
-Resulting output of the following configuration will result one (1) function to be run in a single ScriptProcessorNode.
+Resulting output of the following configuration will result one single function to be run in a single ScriptProcessorNode.
 
 ```
 function (evt) {
@@ -54,3 +54,5 @@ So basically one node with _outlets_ will result following code to be generated
 * Inlet variable declarations
 * Assingment of the (possibly) connected outlet into the inlet
 * Assingment and processing the inlet value
+
+So far the experiment works, but it's obvious that two module patch is way too naive to prove anything yet. Next steps will be to create more modules and more complicated patches and configurations and see if this approach will scale.
