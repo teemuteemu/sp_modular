@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Inlet, Outlet } from './Lets';
+import { Inlet, Outlet } from 'components/Lets';
+
+import './module.scss';
 
 const Module = ({ moduleDef }) => {
   const style = {

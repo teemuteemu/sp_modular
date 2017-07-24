@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
-import Module from './components/common/Module';
+import Module from 'components/Module';
 
 import {
   refresh
-} from './store/reducers/patch';
+} from 'store/reducers/patch';
 
-import '../styles/index.scss';
+import './patcher.scss';
 
 class Patcher extends React.Component {
   componentDidMount () {

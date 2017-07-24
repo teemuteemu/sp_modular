@@ -1,7 +1,5 @@
 import createNode from './blueprint';
 
-import '../../styles/common/module.scss';
-
 const Noise = {
   name: 'Noise',
   outlets: [

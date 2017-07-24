@@ -1,10 +1,9 @@
 const componentTemplate = {
   name: '',
-  priority: 0,
   inlets: [],
   outlets: [],
   src: '',
-  position: [0, 40]
+  position: [10, 10]
 };
 
 const createNode = (node) => {

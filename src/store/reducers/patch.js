@@ -1,7 +1,7 @@
 import Audio from '../../audio';
 
-import AudioOut from '../../modules/AudioOut';
-import Noise from '../../modules/Noise';
+import AudioOut from '../../audio/modules/AudioOut';
+import Noise from '../../audio/modules/Noise';
 
 const ACTIONS = {
   REFRESH: 'PATCH/ACTION/REFRESH'

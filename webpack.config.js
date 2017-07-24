@@ -18,7 +18,7 @@ loaders.push({
 module.exports = {
   entry: [
     'react-hot-loader/patch',
-    './src/index.jsx', // your app's entry point
+    './src/index.js', // your app's entry point
   ],
   devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
   output: {
@@ -27,7 +27,11 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      store: path.resolve(__dirname, 'src', 'store'),
+      components: path.resolve(__dirname, 'src', 'components')
+    }
   },
   module: {
     loaders

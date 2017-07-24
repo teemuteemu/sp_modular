@@ -1,7 +1,5 @@
 import createNode from './blueprint';
 
-import '../../styles/common/module.scss';
-
 const AudioOutModule = {
   name: 'Audio out',
   inlets: [
