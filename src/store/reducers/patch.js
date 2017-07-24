@@ -2,6 +2,7 @@ import Audio from '../../audio';
 
 import AudioOut from '../../audio/modules/AudioOut';
 import Noise from '../../audio/modules/Noise';
+import Sine from '../../audio/modules/Sine';
 
 const ACTIONS = {
   REFRESH: 'PATCH/ACTION/REFRESH'
@@ -10,10 +11,10 @@ const ACTIONS = {
 const initialState = {
   modules: [
     AudioOut,
-    Noise
+    Sine
   ],
   nets: [
-    ['OUTLET_NOISE', 'INLET_AUDIO_OUT']
+    ['OUTLET_SINE', 'INLET_AUDIO_OUT']
   ]
 };
 

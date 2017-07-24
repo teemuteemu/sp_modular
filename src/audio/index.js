@@ -2,8 +2,36 @@ window.AudioContext = window.AudioContext||window.webkitAudioContext;
 
 const context = new AudioContext();
 const config = {
+  NMR_CHANNEL: 1,
+  TABLE_SIZE: 88200,
+  SAMPLE_FREQ: 44100,
   BUFFER_SIZE: 2048
 };
+
+const REAL_TIME_FREQUENCY = 440;
+const ANGULAR_FREQUENCY = REAL_TIME_FREQUENCY * 2 * Math.PI;
+
+function generateSample(sampleNumber) {
+  const sampleTime = sampleNumber / 44100;
+  const sampleAngle = sampleTime * ANGULAR_FREQUENCY;
+
+  return Math.sin(sampleAngle);
+}
+
+function createSine () {
+  const buffer = context.createBuffer(config.NMR_CHANNEL, config.BUFFER_SIZE, config.SAMPLE_FREQ);
+  const channel = buffer.getChannelData(0);
+
+  for (let i=0; i<channel.length; i++) {
+    channel[i] = generateSample(i);
+  }
+
+  return channel;
+}
+
+window.TABLES = {
+  SINE: createSine()
+}
 
 function createScriptProcessorFunction (state) {
   const variableDeclr = state.nets
