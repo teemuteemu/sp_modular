@@ -1,7 +1,7 @@
 {
-  "name": "react-webpack-babel",
-  "version": "0.0.3",
-  "description": "React Webpack Babel Starter Kit",
+  "name": "sp-modular-experiment",
+  "version": "0.0.1",
+  "description": "WebAudio Modular Experiment",
   "main": "''",
   "scripts": {
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
@@ -13,9 +13,9 @@
     "type": "git",
     "url": "https://github.com/alicoding/react-webpack-babel"
   },
-  "author": "Ali Al Dallal",
+  "author": "Teemu Kallio <teemu.tuomas.oskari@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/alicoding/react-webpack-babel#readme",
+  "homepage": "https://github.com/teemuteemu/sp_modular/blob/master/README.md",
   "dependencies": {
     "node-sass": "^4.3.0",
     "react": "15.4.2",
