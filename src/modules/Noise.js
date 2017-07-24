@@ -5,10 +5,10 @@ import '../../styles/common/module.scss';
 const Noise = {
   name: 'Noise',
   outlets: [
-    'OUTLET_0'
+    'OUTLET_NOISE'
   ],
   src: `
-    OUTLET_0[i] = Math.random();
+    OUTLET_NOISE[i] = Math.random();
   `
 };
 

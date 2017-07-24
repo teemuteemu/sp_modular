@@ -32,7 +32,6 @@ function createScriptProcessorFunction (state) {
       ${inputs.join(' ')}
     }
   `;
-  console.log(functionString);
 
   return Function('evt', functionString);
 

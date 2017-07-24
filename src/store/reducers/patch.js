@@ -9,7 +9,7 @@ const initialState = {
     Noise
   ],
   nets: [
-    ['OUTLET_0', 'INLET_0']
+    ['OUTLET_NOISE', 'INLET_AUDIO_OUT']
   ]
 };
 

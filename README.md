@@ -1,97 +1,56 @@
-# react-webpack-babel
-Simple React Webpack Babel Starter Kit
+# Webaudio modular experiment
 
-Tired of complicated starters with 200MB of dependencies which are hard to understand and modify?
+This is an experiment for implementing a naive modular synthesizer using WebAudio and ScriptProcessorNode.
 
-Try this is a simple [React](https://facebook.github.io/react/), [Webpack](http://webpack.github.io/) and [Babel](https://babeljs.io/) application with nothing else in it.
+My previous attempts to create such a system have ended up failing since using multiple ScriptProcessorNodes (one per module) simply won't provide the needed performance and the overhead of one script processor per one module is just too high. So this way of implementing a modular synthesizer system has proven to be too performance heavy.
 
-### What's in it?
+In this experiment though the idea is to discard the concept of using multiple script processors. Instead in this experiment the whole modular system in will be "complid" into a single ScriptProcessorNode, and the code of each modules will be compiled into a single function. Picture below will try to explain the idea:
 
-* Simple src/index.jsx and src/index.css (local module css).
-* Webpack configuration for development (with hot reloading) and production (with minification).
-* CSS module loading, so you can include your css by ```import styles from './path/to.css';```.
-* Both js(x) and css hot loaded during development.
-* [Webpack Dashboard Plugin](https://github.com/FormidableLabs/webpack-dashboard) on dev server.
-
-### To run
-
-* You'll need to have [git](https://git-scm.com/) and [node](https://nodejs.org/en/) installed in your system.
-* Fork and clone the project:
+Let's consider following naive system with two modules.
 
 ```
-git clone https://github.com/alicoding/react-webpack-babel.git
+----------       -------------
+| Noise  |------>| Audio Out |
+|        |       |           |
+----------       -------------
 ```
 
-* Then install the dependencies:
-
+Noise module:
 ```
-npm install
-```
-
-* Run development server:
-
-```
-npm start
+OUTLET_NOISE[i] = Math.random();
 ```
 
-* Or you can run development server with [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard):
-
+Audio Out module:
 ```
-npm run dev
-```
-
-Open the web browser to `http://localhost:8888/`
-
-### To build the production package
-
-```
-npm run build
+OUT_BUFFER[i] = INLET_AUDIO_OUT[i];
 ```
 
-### Nginx Config
+Resulting output of the following configuration will result one (1) function to be run in a single ScriptProcessorNode.
 
-Here is an example Nginx config:
 ```
-server {
-	# ... root and other options
+function (evt) {
+  const OUT_BUFFER = evt.outputBuffer.getChannelData(0);
+  const OUTLET_NOISE = [];
+  const INLET_AUDIO_OUT = [];
 
-	gzip on;
-	gzip_http_version 1.1;
-	gzip_types text/plain text/css text/xml application/javascript image/svg+xml;
+  for (var i = 0; i < OUT_BUFFER.length; i++) {
+    OUTLET_NOISE[i] = Math.random();
 
-	location / {
-		try_files $uri $uri/ /index.html;
-	}
+    INLET_AUDIO_OUT[i] = OUTLET_NOISE[i]
 
-	location ~ \.html?$ {
-		expires 1d;
-	}
-
-	location ~ \.(svg|ttf|js|css|svgz|eot|otf|woff|jpg|jpeg|gif|png|ico)$ {
-		access_log off;
-		log_not_found off;
-		expires max;
-	}
+    OUT_BUFFER[i] = INLET_AUDIO_OUT[i];
+  }
 }
 ```
 
-### Eslint
-There is a .eslint.yaml config for eslint ready with React plugin.
-To use it, you need to install additional dependencies though:
+So basically one node with _outlets_ will result following code to be generated
 
-```
-npm install --save-dev eslint eslint-plugin-react
-```
+* Outlet variable declarations
+* Assingment of the generated value into the declared outlet
+* Assingment of the value from outlet to a possibly connected inlet
 
-To do the actual linting, run:
+...while a node with _inlets_ will result following code
 
-```
-npm run lint
-```
-
-### Notes on importing css styles
-* styles having /src/ in their absolute path are considered part of the application and exported as local css modules.
-* other styles are considered global styles used by many components and are included in the css bundle directly.
-
-### Contribute
-Please contribute to the project if you know how to make it better, including this README :)
+* Inlet variable declarations
+* Assingment of the (possibly) connected outlet into the inlet
+* Assingment and processing the inlet value
