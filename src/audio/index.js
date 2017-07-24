@@ -8,10 +8,8 @@ const config = {
 function createScriptProcessorFunction (state) {
   const variableDeclr = state.nets
     .reduce((p, c) => p.concat(c))
-    .map(n => `const ${n} = []`)
-    .join('; ');
-
-  console.log(variableDeclr);
+    .map(n => `const ${n} = [];`)
+    .join(' ');
 
   const outputs = state.modules
     .filter(m => m.outlets.length > 0)
