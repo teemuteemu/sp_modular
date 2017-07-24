@@ -1,16 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 
 import Module from './components/common/Module';
 
+import {
+  refresh
+} from './store/reducers/patch';
+
 import '../styles/index.scss';
 
-const Patcher = ({ patch }) => {
-  return (
-    <div className="patcher">
-      { patch.modules.map(m => <Module key={m.name} moduleDef={m} />) }
-    </div>
-  )
+class Patcher extends React.Component {
+  componentDidMount () {
+    this.props.refresh();
+  }
+
+  render () {
+    const {
+      patch
+    } = this.props;
+
+    return (
+      <div className="patcher">
+        { patch.modules.map(m => <Module key={m.name} moduleDef={m} />) }
+      </div>
+    )
+  }
 }
 
 function mapStateToProps (state) {
@@ -19,7 +34,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    moveModule: null
+    refresh: bindActionCreators(refresh, dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Patcher);

@@ -3,6 +3,10 @@ import Audio from '../../audio';
 import AudioOut from '../../modules/AudioOut';
 import Noise from '../../modules/Noise';
 
+const ACTIONS = {
+  REFRESH: 'PATCH/ACTION/REFRESH'
+};
+
 const initialState = {
   modules: [
     AudioOut,
@@ -13,9 +17,17 @@ const initialState = {
   ]
 };
 
+export function refresh () {
+  return {
+    type: ACTIONS.REFRESH
+  };
+}
+
 export default function (state = initialState, action) {
+  console.log(action.type);
+
   switch (action.type) {
-    case '@@redux/INIT':
+    case ACTIONS.REFRESH:
       Audio.initAudio(state);
       break;
   }
