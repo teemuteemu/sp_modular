@@ -6,17 +6,23 @@ export default class NoiseModule extends BaseModule {
 
     this.name = 'Noise';
     this.description = 'White noise node.';
-  }
 
-  outlets () {
-    return [
-      this.getLet('OUTLET_NOISE')
+    this.outlets = [
+      'NOISE_OUT'
     ];
   }
 
+  /*
+  outlets () {
+    return [
+      this.letId('NOISE_OUT')
+    ];
+  }
+  */
+
   src () {
     return `
-      ${this.getLet('OUTLET_NOISE')}[i] = Math.random();
+      ${this.outlet('NOISE_OUT')}[i] = Math.random();
     `;
   }
 }

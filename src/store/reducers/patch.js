@@ -2,7 +2,7 @@ import Audio from '../../audio';
 
 import AudioOut from '../../audio/modules/AudioOut';
 import Noise from '../../audio/modules/Noise';
-import VCA from '../../audio/modules/VCA';
+// import VCA from '../../audio/modules/VCA';
 
 const ACTIONS = {
   REFRESH: 'PATCH/ACTION/REFRESH'
@@ -10,16 +10,16 @@ const ACTIONS = {
 
 const audioOut = new AudioOut();
 const noise = new Noise();
-const vca = new VCA();
+// const vca = new VCA();
 
 const initialState = {
   modules: [
     audioOut,
     noise,
-    vca
+    // vca
   ],
   nets: [
-    [noise.outlets()[0], audioOut.inlets()[0]]
+    [noise.outlet('NOISE_OUT'), audioOut.inlet('AUDIO_OUT_IN')]
   ]
 };
 

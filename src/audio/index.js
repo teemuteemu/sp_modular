@@ -7,17 +7,17 @@ const config = {
 
 function createScriptProcessorFunction (state) {
   const variableDeclr = state.modules
-    .map(m => m.outlets().concat(m.inlets()))
+    .map(m => m.lets())
     .reduce((p, c) => p.concat(c))
     .map(n => `let ${n} = [];`)
     .join(' ');
 
   const outputs = state.modules
-    .filter(m => m.outlets().length > 0)
+    .filter(m => m.outlets.length > 0)
     .map(m => m.src());
 
   const inputs = state.modules
-    .filter(m => m.inlets().length > 0)
+    .filter(m => m.inlets.length > 0)
     .map(m => m.src());
 
   const nets = state.nets
@@ -36,6 +36,7 @@ function createScriptProcessorFunction (state) {
   `;
 
   console.log(functionString);
+  debugger
 
   return Function('evt', functionString);
 }

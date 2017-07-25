@@ -15,10 +15,10 @@ const Module = ({ moduleDef }) => {
       <p>{ moduleDef.name }</p>
       <div>
         <div>
-          { moduleDef.inlets().map(i => <Inlet key={i} data={i} />) }
+          { moduleDef.inlets.map(i => <Inlet key={i} data={i} />) }
         </div>
         <div>
-          { moduleDef.outlets().map(i => <Outlet key={i} data={i} />) }
+          { moduleDef.outlets.map(i => <Outlet key={i} data={i} />) }
         </div>
       </div>
     </div>

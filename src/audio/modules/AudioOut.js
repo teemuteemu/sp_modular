@@ -6,31 +6,15 @@ export default class AudioOutModule extends BaseModule {
 
     this.name = 'Audio Out';
     this.description = 'Master audio out node.';
-  }
 
-  inlets () {
-    return [
-      this.getLet('INLET_AUDIO_OUT')
+    this.inlets = [
+      'AUDIO_OUT_IN'
     ];
   }
 
   src () {
     return `
-      GLOBAL_OUT_BUFFER[i] = ${this.getLet('INLET_AUDIO_OUT')}[i];
+      GLOBAL_OUT_BUFFER[i] = ${this.inlet('AUDIO_OUT_IN')}[i];
     `;
   }
 }
-
-/*
-const AudioOutModule = {
-  name: 'Audio out',
-  inlets: [
-    'INLET_AUDIO_OUT',
-  ],
-  src: `
-    OUT_BUFFER[i] = INLET_AUDIO_OUT[i];
-  `
-};
-
-export default createNode(AudioOutModule);
-*/
