@@ -12,29 +12,31 @@ function createScriptProcessorFunction (state) {
     .join(' ');
 
   const outputs = state.modules
-    .filter(m => m.outlets.length > 0)
-    .map(m => m.src);
+    .filter(m => m.outlets().length > 0)
+    .map(m => m.src());
 
   const inputs = state.modules
-    .filter(m => m.inlets.length > 0)
-    .map(m => m.src);
+    .filter(m => m.inlets().length > 0)
+    .map(m => m.src());
 
-  const nets = state.nets.map(n => `${n[1]}[i] = ${n[0]}[i]`);
+  const nets = state.nets
+    .map(n => `${n[1]}[i] = ${n[0]}[i]`);
 
   const functionString = `
-    const OUT_BUFFER = evt.outputBuffer.getChannelData(0);
+    const GLOBAL_OUT_BUFFER = evt.outputBuffer.getChannelData(0);
 
     ${variableDeclr}
 
-    for (let i = 0; i < OUT_BUFFER.length; i++) {
+    for (let i = 0; i < GLOBAL_OUT_BUFFER.length; i++) {
       ${outputs.join(' ')}
       ${nets.join(' ')}
       ${inputs.join(' ')}
     }
   `;
 
-  return Function('evt', functionString);
+  console.log(functionString);
 
+  return Function('evt', functionString);
 }
 
 const initAudio = (state) => {

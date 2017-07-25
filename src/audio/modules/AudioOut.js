@@ -1,5 +1,27 @@
-import createNode from './blueprint';
+import BaseModule from './BaseModule';
 
+export default class AudioOutModule extends BaseModule {
+  constructor () {
+    super();
+
+    this.name = 'Audio Out';
+    this.description = 'Master audio out node.';
+  }
+
+  inlets () {
+    return [
+      this.getLet('INLET_AUDIO_OUT')
+    ];
+  }
+
+  src () {
+    return `
+      GLOBAL_OUT_BUFFER[i] = ${this.getLet('INLET_AUDIO_OUT')}[i];
+    `;
+  }
+}
+
+/*
 const AudioOutModule = {
   name: 'Audio out',
   inlets: [
@@ -11,3 +33,4 @@ const AudioOutModule = {
 };
 
 export default createNode(AudioOutModule);
+*/

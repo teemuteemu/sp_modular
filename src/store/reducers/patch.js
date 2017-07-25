@@ -7,13 +7,16 @@ const ACTIONS = {
   REFRESH: 'PATCH/ACTION/REFRESH'
 };
 
+const audioOut = new AudioOut();
+const noise = new Noise();
+
 const initialState = {
   modules: [
-    AudioOut,
-    Noise
+    audioOut,
+    noise
   ],
   nets: [
-    ['OUTLET_NOISE', 'INLET_AUDIO_OUT']
+    [noise.outlets()[0], audioOut.inlets()[0]]
   ]
 };
 

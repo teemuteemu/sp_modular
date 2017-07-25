@@ -1,13 +1,22 @@
-import createNode from './blueprint';
+import BaseModule from './BaseModule';
 
-const Noise = {
-  name: 'Noise',
-  outlets: [
-    'OUTLET_NOISE'
-  ],
-  src: `
-    OUTLET_NOISE[i] = Math.random();
-  `
-};
+export default class NoiseModule extends BaseModule {
+  constructor () {
+    super();
 
-export default createNode(Noise);
+    this.name = 'Noise';
+    this.description = 'White noise node.';
+  }
+
+  outlets () {
+    return [
+      this.getLet('OUTLET_NOISE')
+    ];
+  }
+
+  src () {
+    return `
+      ${this.getLet('OUTLET_NOISE')}[i] = Math.random();
+    `;
+  }
+}
