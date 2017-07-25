@@ -17,7 +17,7 @@ export default class BaseModule {
   }
 
   getLet (letName) {
-    return `${letName}${this.id}`;
+    return `${letName}_${this.id}`;
   }
 
   src () {

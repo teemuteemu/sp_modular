@@ -6,9 +6,10 @@ const config = {
 };
 
 function createScriptProcessorFunction (state) {
-  const variableDeclr = state.nets
+  const variableDeclr = state.modules
+    .map(m => m.outlets().concat(m.inlets()))
     .reduce((p, c) => p.concat(c))
-    .map(n => `const ${n} = [];`)
+    .map(n => `let ${n} = [];`)
     .join(' ');
 
   const outputs = state.modules
