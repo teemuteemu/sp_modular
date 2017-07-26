@@ -8,18 +8,18 @@ export default class VCAModule extends BaseModule {
     this.description = '"Voltage" controlled amplifier.';
 
     this.inlets = [
-      'IN_VCA_AUDIO',
-      'IN_VCA_CV'
+      'AUDIO',
+      'CV'
     ];
 
     this.outlets = [
-      'OUT_VCA'
+      'OUT'
     ];
   }
 
   src () {
     return `
-      ${this.outlet('OUT_VCA')}[i] = ${this.inlet('IN_VCA_AUDIO')}[i] * ${this.inlet('IN_VCA_CV')}[1];
+      ${this.outlet('OUT')}[i] = ${this.inlet('AUDIO')}[i] * ${this.inlet('CV')}[1];
     `;
   }
 }

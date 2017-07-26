@@ -9,13 +9,13 @@ export default class AudioOutModule extends BaseModule {
     this.rootNode = true; // dirty hack for composing a node tree
 
     this.inlets = [
-      'AUDIO_OUT_IN'
+      'IN'
     ];
   }
 
   src () {
     return `
-      GLOBAL_OUT_BUFFER[i] = ${this.inlet('AUDIO_OUT_IN')}[i];
+      GLOBAL_OUT_BUFFER[i] = ${this.inlet('IN')}[i];
     `;
   }
 }

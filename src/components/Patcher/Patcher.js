@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactArt from 'react-art';
+
 import './patcher.scss';
 
 import Module from 'components/Module';

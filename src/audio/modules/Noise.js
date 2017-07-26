@@ -8,13 +8,13 @@ export default class NoiseModule extends BaseModule {
     this.description = 'White noise node.';
 
     this.outlets = [
-      'NOISE_OUT'
+      'OUT'
     ];
   }
 
   src () {
     return `
-      ${this.outlet('NOISE_OUT')}[i] = Math.random();
+      ${this.outlet('OUT')}[i] = Math.random();
     `;
   }
 }

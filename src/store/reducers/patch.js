@@ -28,7 +28,7 @@ const initialState = {
     pulse
   ],
   nets: [
-    [pulse.outlet('OUT'), audioOut.inlet('AUDIO_OUT_IN')],
+    [pulse.outlet('OUT'), audioOut.inlet('IN')],
     /*
     [pulse.outlet('OUT'), vca.inlet('IN_VCA_AUDIO')],
     [noiseCV.outlet('NOISE_OUT'), vca.inlet('IN_VCA_CV')],
