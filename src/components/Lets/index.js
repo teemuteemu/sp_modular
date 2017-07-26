@@ -1,13 +1,13 @@
 import React from 'react';
 
-export const Inlet = ({ name }) => {
+export const Inlet = ({ data }) => {
   return (
     <p>in</p>
   );
-}
+};
 
-export const Outlet = ({ name }) => {
+export const Outlet = ({ data }) => {
   return (
     <p>out</p>
   );
-}
+};
