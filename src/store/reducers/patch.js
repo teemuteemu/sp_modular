@@ -2,6 +2,7 @@ import Audio from '../../audio';
 
 import AudioOut from '../../audio/modules/AudioOut';
 import Noise from '../../audio/modules/Noise';
+import Pulse from '../../audio/modules/Pulse';
 import VCA from '../../audio/modules/VCA';
 
 const ACTIONS = {
@@ -10,6 +11,7 @@ const ACTIONS = {
 
 const audioOut = new AudioOut();
 const noise = new Noise();
+const pulse = new Pulse();
 const vca = new VCA();
 const noiseCV = new Noise();
 
@@ -18,13 +20,20 @@ const initialState = {
     audioOut,
     noise,
     vca,
-    noiseCV
+    noiseCV,
+    pulse
   ],
   nets: [
-    // [noise.outlet('NOISE_OUT'), audioOut.inlet('AUDIO_OUT_IN')]
-    [noise.outlet('NOISE_OUT'), vca.inlet('IN_VCA_AUDIO')],
+    [pulse.outlet('OUT'), audioOut.inlet('AUDIO_OUT_IN')],
+    /*
+    [pulse.outlet('OUT'), vca.inlet('IN_VCA_AUDIO')],
     [noiseCV.outlet('NOISE_OUT'), vca.inlet('IN_VCA_CV')],
     [vca.outlet('OUT_VCA'), audioOut.inlet('AUDIO_OUT_IN')]
+    /*
+    [pulse.outlet('PULSE_OUT'), vca.inlet('IN_VCA_AUDIO')],
+    [noiseCV.outlet('NOISE_OUT'), vca.inlet('IN_VCA_CV')],
+    [vca.outlet('OUT_VCA'), audioOut.inlet('AUDIO_OUT_IN')]
+    */
   ]
 };
 

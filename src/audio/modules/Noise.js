@@ -12,14 +12,6 @@ export default class NoiseModule extends BaseModule {
     ];
   }
 
-  /*
-  outlets () {
-    return [
-      this.letId('NOISE_OUT')
-    ];
-  }
-  */
-
   src () {
     return `
       ${this.outlet('NOISE_OUT')}[i] = Math.random();

@@ -1,6 +1,6 @@
-window.AudioContext = window.AudioContext||window.webkitAudioContext;
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-const context = new AudioContext();
+const context = new window.AudioContext();
 const config = {
   BUFFER_SIZE: 2048
 };
@@ -21,7 +21,7 @@ function toAssignment (nets, inlets) {
       return ns.map(n => `${n[1]}[i] = ${n[0]}[i];`);
     })
     .reduce((p, c) => p.concat(c))
-    .reduce((p, c) => p.concat(c));
+    .reduce((p, c) => p.concat(c), []);
 }
 
 function nodeToSrc (node, state) {
@@ -56,7 +56,7 @@ function getChildNodes (node, state) {
     });
   const childNodes = childNodeIds
     .map(cid => state.modules.filter(m => m.id === cid))
-    .reduce((p, c) => p.concat(c));
+    .reduce((p, c) => p.concat(c), []);
 
   return childNodes;
 }
