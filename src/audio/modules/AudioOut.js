@@ -6,6 +6,7 @@ export default class AudioOutModule extends BaseModule {
 
     this.name = 'Audio Out';
     this.description = 'Master audio out node.';
+    this.rootNode = true; // dirty hack for composing a node tree
 
     this.inlets = [
       'AUDIO_OUT_IN'

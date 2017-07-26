@@ -1,0 +1,24 @@
+
+noise audio -> vca -> audio out
+                ^
+                |
+noise cv -------|
+
+
+src: noise_audio_outlet = random()
+src: noise_cv_outlet = random()
+
+def: vca_audio_inlet = noise_audio_outlet
+def: vca_cv_inlet = noise_cv_outlet
+src: vca_outlet = vca_audio_inlet * vca_cv_inlet
+
+def: audio_out_inlet = vca_outlet
+src: audio_out_buffer = audio_out_inlet
+
+
+
+while (node.inlets.length > 0) {
+  srcs = []
+  srcs.unshift(audio_out.src) // src eg. a = Math.random()
+  srcs.unshift(toAssignment(audio_out.inlets)) // def eg. a = b
+}
