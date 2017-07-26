@@ -12,12 +12,14 @@ const Module = ({ moduleDef }) => {
 
   return (
     <div className='module' style={style}>
-      <p>{ moduleDef.name }</p>
-      <div>
-        <div>
+      <div className='title'>
+        { moduleDef.name }
+      </div>
+      <div className='lets'>
+        <div className='lets__in'>
           { moduleDef.inlets.map(i => <Inlet key={i} data={i} />) }
         </div>
-        <div>
+        <div className='lets_out'>
           { moduleDef.outlets.map(i => <Outlet key={i} data={i} />) }
         </div>
       </div>

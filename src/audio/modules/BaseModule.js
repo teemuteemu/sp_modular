@@ -5,7 +5,10 @@ export default class BaseModule {
     this.id = guid();
     this.name = 'Untitled module';
     this.description = 'No description available';
-    this.position = [10, 10]; // TODO
+    this.position = [
+      Math.random() * (window.innerWidth / 2),
+      Math.random() * (window.innerHeight / 2)
+    ];
 
     this.inlets = [];
     this.outlets = [];

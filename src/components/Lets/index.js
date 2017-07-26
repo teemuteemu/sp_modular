@@ -2,12 +2,12 @@ import React from 'react';
 
 export const Inlet = ({ data }) => {
   return (
-    <p>in</p>
+    <div className='let let--in'>in</div>
   );
 };
 
 export const Outlet = ({ data }) => {
   return (
-    <p>out</p>
+    <div className='let let--out'>out</div>
   );
 };

@@ -3,4 +3,19 @@
   width: 140px;
   height: 140px;
   background: lightblue;
+
+  .title {
+    border-bottom: 1px solid gray;
+    padding: 4px;
+  }
+  
+  .lets {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .let {
+      background: red;
+    }
+  }
 }
