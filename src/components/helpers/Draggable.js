@@ -1,16 +1,14 @@
 import React from 'react';
 
-export default class Draggable extends React.Component {
+class Draggable extends React.Component {
   constructor (props) {
     super(props);
-    const {
-      moduleDef
-    } = props;
+
+    const [x, y] = props.position || [0, 0];
 
     this.state = {
-      mouseDown: false,
-      x: moduleDef.position[0],
-      y: moduleDef.position[1]
+      x,
+      y
     };
   }
 
@@ -46,3 +44,9 @@ export default class Draggable extends React.Component {
     }
   }
 }
+
+Draggable.propTypes = {
+  position: React.PropTypes.array
+};
+
+export default Draggable;

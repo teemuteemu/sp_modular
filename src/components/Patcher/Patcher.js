@@ -18,7 +18,7 @@ class Patcher extends React.Component {
       <div className='patcher'>
         <svg xmlns='http://www.w3.org/2000/svg'>
           <g className='modules'>
-          { patch.modules.map(m => <Module key={m.id} moduleDef={m} />) }
+          { patch.modules.map(m => <Module key={m.id} moduleDef={m} position={m.position} />) }
           </g>
         </svg>
       </div>

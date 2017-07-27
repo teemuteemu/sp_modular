@@ -1,15 +1,11 @@
 import React from 'react';
 
 import Draggable from 'components/helpers/Draggable';
-import Let from 'components/Lets';
+import Let from 'components/Let';
 
 import './module.scss';
 
 class Module extends Draggable {
-  constructor (props) {
-    super(props);
-  }
-
   render () {
     const {
       moduleDef
