@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Inlet, Outlet } from 'components/Lets';
+import Let from 'components/Lets';
 
 import './module.scss';
 
@@ -9,25 +9,35 @@ class Module extends React.Component {
     const {
       moduleDef
     } = this.props;
-    const style = {
-      top: moduleDef.position[0],
-      left: moduleDef.position[1]
+    const x = moduleDef.position[0];
+    const y = moduleDef.position[1];
+    const moduleTranslate = `translate(${x}, ${y})`;
+
+    const moduleTitle = {
+      x: 4,
+      y: 16
     };
 
     return (
-      <div className='module' style={style}>
-        <div className='title'>
+      <g
+        className='module'
+        transform={moduleTranslate}>
+        <rect
+          className='module__box'
+          x={0}
+          y={0} />
+        <text
+          className='module__title'
+          x={moduleTitle.x}
+          y={moduleTitle.y}>
           { moduleDef.name }
-        </div>
-        <div className='lets'>
-          <div className='lets__in'>
-            { moduleDef.inlets.map(i => <Inlet key={i} data={i} />) }
-          </div>
-          <div className='lets_out'>
-            { moduleDef.outlets.map(i => <Outlet key={i} data={i} />) }
-          </div>
-        </div>
-      </div>
+        </text>
+        <g
+          className='module__lets'>
+          { moduleDef.inlets.map((l, i) => <Let inlet={true} key={i} data={l} index={i} />) }
+          { moduleDef.outlets.map((l, i) => <Let inlet={false} key={i} data={l} index={i} />) }
+        </g>
+      </g>
     );
   }
 }

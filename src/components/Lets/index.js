@@ -2,14 +2,26 @@ import React from 'react';
 
 import './lets.scss';
 
-export const Inlet = ({ data }) => {
+const Let = ({ data, index, inlet }) => {
+  const x = inlet
+    ? 4
+    : 120;
+  const y = 32 + (16 * index);
+
   return (
-    <div className='let let--in'>{data}</div>
+    <g className='let let--in'>
+      <rect
+        className='let__rect'
+        x={x}
+        y={y} />
+      <text
+        className='let__name'
+        x={x + 16}
+        y={y + 12}>
+        { data }
+      </text>
+    </g>
   );
 };
 
-export const Outlet = ({ data }) => {
-  return (
-    <div className='let let--out'>{data}</div>
-  );
-};
+export default Let;

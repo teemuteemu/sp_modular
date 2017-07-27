@@ -1,11 +1,17 @@
-.module {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  background: lightblue;
+@import '../../../styles/variables';
 
-  .title {
-    border-bottom: 1px solid gray;
-    padding: 4px;
+.module {
+  &__box {
+    fill: $color_bg;
+    stroke: $color_fg;
+    stroke-width: 3px;
+    width: $module_width;
+    height: $module_height
+  }
+
+  &__title {
+  }
+
+  &__io {
   }
 }
