@@ -1,7 +1,11 @@
 .let {
+  &--selected {
+    fill: red;
+  }
+
   &__rect {
     width: 12px;
     height: 12px;
-    fill: red;
+    fill: blue;
   }
 }
