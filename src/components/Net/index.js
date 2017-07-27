@@ -1,11 +1,14 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-const Net = ({ net }) => {
-  const data = '';
+import Net from './Net';
 
-  return (
-    <path d={data} />
-  );
-};
+function mapStateToProps (state, props) {
+  return Object.assign({}, state, props);
+}
 
-export default Net;
+function mapDispatchToProps (dispatch) {
+  return {
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Net);
