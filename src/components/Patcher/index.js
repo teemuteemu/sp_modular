@@ -4,10 +4,11 @@ import { bindActionCreators } from 'redux';
 import {
   refresh
 } from 'store/reducers/patch';
-import Patcher from './Patcher.js';
 
-function mapStateToProps (state) {
-  return state;
+import Patcher from './Patcher';
+
+function mapStateToProps (state, props) {
+  return Object.assign({}, state, props);
 }
 
 function mapDispatchToProps (dispatch) {

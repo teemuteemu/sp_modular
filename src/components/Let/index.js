@@ -1,72 +1,21 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import './lets.scss';
+import {
+  selectLet,
+  unselectLet
+} from 'store/reducers/patch';
 
-class Let extends React.Component {
-  constructor (props) {
-    super(props);
+import Let from './Let';
 
-    this.state = {
-      dragOn: false
-    };
-  }
-
-  onMouseDown (pr, evt) {
-    window.addEventListener('mouseup', this.onMouseUp.bind(this), false);
-
-    this.setState({
-      dragOn: true
-    });
-  }
-
-  onMouseUp () {
-    window.removeEventListener('mouseup', this.onMouseUp.bind(this), false);
-
-    this.setState({
-      dragOn: false
-    });
-  }
-
-  render () {
-    const {
-      inlet,
-      data,
-      index
-    } = this.props;
-    const {
-      dragOn
-    } = this.state;
-    const className = [
-      'let',
-      inlet ? 'let--in' : 'let--out',
-      dragOn ? 'let--selected' : ''
-    ].join(' ');
-
-    const onMouseDown = this.onMouseDown.bind(this);
-    const onMouseUp = this.onMouseUp.bind(this);
-
-    const x = inlet
-      ? 4
-      : 120;
-    const y = 32 + (16 * index);
-
-    return (
-      <g className={className}>
-        <rect
-          className='let__rect'
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          x={x}
-          y={y} />
-        <text
-          className='let__name'
-          x={x + 16}
-          y={y + 12}>
-          { data }
-        </text>
-      </g>
-    );
-  }
+function mapStateToProps (state, props) {
+  return Object.assign({}, state, props);
 }
 
-export default Let;
+function mapDispatchToProps (dispatch) {
+  return {
+    selectLet: bindActionCreators(selectLet, dispatch),
+    unselectLet: bindActionCreators(unselectLet, dispatch)
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Let);

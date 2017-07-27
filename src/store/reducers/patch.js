@@ -10,7 +10,9 @@ const ACTIONS = {
   ADD_MODULE: 'PATCH/ACTION/ADD_MODULE',
   REMOVE_MODULE: 'PATCH/ACTION/REMOVE_MODULE',
   ADD_NET: 'PATCH/ACTION/ADD_NET',
-  REMOVE_NET: 'PATCH/ACTION/REMOVE_NET'
+  REMOVE_NET: 'PATCH/ACTION/REMOVE_NET',
+  SELECT_LET: 'PATCH/ACTION/SELECT_LET',
+  UNSELECT_LET: 'PATCH/ACTION/UNSELECT_LET'
 };
 
 const audioOut = new AudioOut();
@@ -27,6 +29,7 @@ const initialState = {
     noiseCV,
     pulse
   ],
+  selectedLet: null,
   nets: [
     [pulse.outlet('OUT'), audioOut.inlet('IN')],
     /*
@@ -75,6 +78,20 @@ export function removeNet (net) {
   };
 }
 
+export function selectLet (moduleId, name) {
+  return {
+    type: ACTIONS.SELECT_LET,
+    moduleId,
+    name
+  };
+}
+
+export function unselectLet () {
+  return {
+    type: ACTIONS.UNSELECT_LET
+  };
+}
+
 export default function (state = initialState, action) {
   switch (action.type) {
     case ACTIONS.REFRESH:
@@ -90,6 +107,12 @@ export default function (state = initialState, action) {
       return state;
     case ACTIONS.REMOVE_NET:
       return state.modules.filter(n => n[0] !== action.net[0] && n[1] !== action.net[1]);
+    case ACTIONS.SELECT_LET:
+      state.selectedLet = action.let;
+      return state;
+    case ACTIONS.UNSELECT_LET:
+      state.selectedLet = null;
+      return state;
   }
 
   return state;

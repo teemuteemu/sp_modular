@@ -42,8 +42,8 @@ class Module extends Draggable {
         </text>
         <g
           className='module__lets'>
-          { moduleDef.inlets.map((l, i) => <Let inlet={true} key={i} data={l} index={i} />) }
-          { moduleDef.outlets.map((l, i) => <Let inlet={false} key={i} data={l} index={i} />) }
+          { moduleDef.inlets.map((l, i) => <Let inlet={true} key={i} moduleId={moduleDef.id} name={l} index={i} />) }
+          { moduleDef.outlets.map((l, i) => <Let inlet={false} key={i} moduleId={moduleDef.id} name={l} index={i} />) }
         </g>
       </g>
     );
