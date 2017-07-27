@@ -1,6 +1,12 @@
 @import '../../../styles/variables';
 
 .module {
+  &--selected {
+    .module__box {
+      fill: darken($color_bg, 50%);
+    }
+  }
+
   &__box {
     fill: $color_bg;
     stroke: $color_fg;

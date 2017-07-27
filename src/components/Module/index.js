@@ -1,26 +1,38 @@
 import React from 'react';
 
+import Draggable from 'components/helpers/Draggable';
 import Let from 'components/Lets';
 
 import './module.scss';
 
-class Module extends React.Component {
+class Module extends Draggable {
+  constructor (props) {
+    super(props);
+  }
+
   render () {
     const {
       moduleDef
     } = this.props;
-    const x = moduleDef.position[0];
-    const y = moduleDef.position[1];
+    const {
+      x,
+      y,
+      mouseDown
+    } = this.state;
     const moduleTranslate = `translate(${x}, ${y})`;
+    const className = [
+      'module',
+      mouseDown ? 'module--selected' : ''
+    ].join(' ');
 
-    const moduleTitle = {
-      x: 4,
-      y: 16
-    };
+    const onMouseDown = this.onMouseDown.bind(this);
+    const onMouseUp = this.onMouseUp.bind(this);
 
     return (
       <g
-        className='module'
+        className={className}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
         transform={moduleTranslate}>
         <rect
           className='module__box'
@@ -28,8 +40,8 @@ class Module extends React.Component {
           y={0} />
         <text
           className='module__title'
-          x={moduleTitle.x}
-          y={moduleTitle.y}>
+          x={4}
+          y={16}>
           { moduleDef.name }
         </text>
         <g
