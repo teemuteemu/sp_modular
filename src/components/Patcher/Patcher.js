@@ -26,10 +26,17 @@ class Patcher extends React.Component {
 
     const inModule = this.findModule(inModuleId);
     const outModule = this.findModule(outModuleId);
+    const inIndex = inModule.inlets.indexOf(inLet);
+    const outIndex = outModule.outlets.indexOf(outLet);
+
+    const inX = inModule.position[0] + 8;
+    const inY = inModule.position[1] + 36 + (18 * inIndex);
+    const outX = outModule.position[0] + 126;
+    const outY = outModule.position[1] + 38 + (18 * outIndex);
 
     return [
-      inModule.position,
-      outModule.position
+      [ inX, inY ],
+      [ outX, outY ]
     ];
   }
 
@@ -43,7 +50,7 @@ class Patcher extends React.Component {
         <svg xmlns='http://www.w3.org/2000/svg'>
           <g className='modules'>
           { patch.modules.map(m => <Module key={m.id} moduleDef={m} position={m.position} />) }
-          { patch.nets.map(n => <Net key={n.id} net={n} netToCoords={this.netToCoords.bind(this)} />) }
+          { patch.nets.map(n => <Net key={n} net={n} netToCoords={this.netToCoords.bind(this)} />) }
           </g>
         </svg>
       </div>

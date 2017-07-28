@@ -1,57 +1,26 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import Draggable from 'components/helpers/Draggable';
-import Let from 'components/Let';
+import {
+  selectModule,
+  unselectModule,
+  setModulePosition
+} from 'store/reducers/patch';
 
-import './module.scss';
+import Module from './Module';
 
-class Module extends Draggable {
-  render () {
-    const {
-      moduleDef
-    } = this.props;
-    const {
-      x,
-      y,
-      mouseDown
-    } = this.state;
-    const moduleTranslate = `translate(${x}, ${y})`;
-    const className = [
-      'module',
-      mouseDown ? 'module--selected' : ''
-    ].join(' ');
-
-    const onMouseDown = this.onMouseDown.bind(this);
-    const onMouseUp = this.onMouseUp.bind(this);
-
-    return (
-      <g
-        className={className}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        transform={moduleTranslate}>
-        <rect
-          className='module__box'
-          x={0}
-          y={0} />
-        <text
-          className='module__title'
-          x={4}
-          y={16}>
-          { moduleDef.name }
-        </text>
-        <g
-          className='module__lets'>
-          { moduleDef.inlets.map((l, i) => <Let inlet={true} key={i} moduleId={moduleDef.id} name={l} index={i} />) }
-          { moduleDef.outlets.map((l, i) => <Let inlet={false} key={i} moduleId={moduleDef.id} name={l} index={i} />) }
-        </g>
-      </g>
-    );
-  }
+function mapStateToProps (state, props) {
+  return {
+    isSelected: state.patch.selectedModule === props.moduleDef.id
+  };
 }
 
-Module.propTypes = {
-  moduleDef: React.PropTypes.object
-};
+function mapDispatchToProps (dispatch) {
+  return {
+    selectModule: bindActionCreators(selectModule, dispatch),
+    unselectModule: bindActionCreators(unselectModule, dispatch),
+    setModulePosition: bindActionCreators(setModulePosition, dispatch)
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Module);
 
-export default Module;
