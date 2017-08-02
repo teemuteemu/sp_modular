@@ -102,7 +102,7 @@ function createScriptProcessorFunction (state) {
     }
   `;
 
-  console.log(functionString);
+  // console.log(functionString);
 
   return Function('evt', functionString);
 }

@@ -9,7 +9,15 @@ import {
 import Let from './Let';
 
 function mapStateToProps (state, props) {
-  return Object.assign({}, state, props);
+  const selectLet = state.patch.selectedLet || {};
+  const {
+    name,
+    moduleId
+  } = selectLet;
+
+  return {
+    selected: name === props.name && moduleId === props.moduleId
+  };
 }
 
 function mapDispatchToProps (dispatch) {

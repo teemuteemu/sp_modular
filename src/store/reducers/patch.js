@@ -110,50 +110,61 @@ export function unselectLet () {
   };
 }
 
-export default function (state = initialState, action) {
+export default function (patch = initialState, action) {
   switch (action.type) {
     case ACTIONS.REFRESH:
-      Audio.initAudio(state);
-      return state;
+      Audio.initAudio(patch);
+      return patch;
 
     case ACTIONS.ADD_MODULE:
-      state.modules.push(action.module);
-      return state;
+      patch.modules.push(action.module);
+      return patch;
 
     case ACTIONS.REMOVE_MODULE:
-      return state.modules.filter(m => m.id !== action.id);
+      return patch.modules.filter(m => m.id !== action.id);
 
     case ACTIONS.ADD_NET:
-      state.nets.push(action.net);
-      return state;
+      patch.nets.push(action.net);
+      return patch;
 
     case ACTIONS.REMOVE_NET:
-      return state.modules.filter(n => n[0] !== action.net[0] && n[1] !== action.net[1]);
+      return patch.modules.filter(n => n[0] !== action.net[0] && n[1] !== action.net[1]);
 
     case ACTIONS.SELECT_MODULE:
-      state.selectedModule = action.moduleId;
-      return state;
+      return Object.assign({}, patch, {
+        selectedModule: action.moduleId
+      });
 
     case ACTIONS.UNSELECT_MODULE:
-      state.selectedModule = null;
-      return state;
+      return Object.assign({}, patch, {
+        selectedModule: null
+      });
 
     case ACTIONS.SET_MODULE_POSITION:
-      const moduleIndex = state.modules.indexOf(state.modules.find(m => m.id === action.moduleId));
-      const newState = Object.assign({}, state);
+      const moduleIndex = patch.modules.indexOf(patch.modules.find(m => m.id === action.moduleId));
+      const newState = Object.assign({}, patch);
       if (moduleIndex >= 0) {
         newState.modules[moduleIndex].position = action.coordinates;
       }
       return newState;
 
     case ACTIONS.SELECT_LET:
-      state.selectedLet = action.let;
-      return state;
+      const {
+        name,
+        moduleId
+      } = action;
+      return Object.assign({}, patch, {
+        selectedLet: {
+          name,
+          moduleId
+        }
+      });
 
     case ACTIONS.UNSELECT_LET:
-      state.selectedLet = null;
-      return state;
+      return Object.assign({}, patch, {
+        selectedLet: null
+      });
   }
 
-  return state;
+  return patch;
 }

@@ -14,11 +14,17 @@ class Module extends React.Component {
   }
 
   onMouseDown (prox, evt) {
-    const { id } = this.props.moduleDef;
-    this.props.selectModule(id);
+    const {
+      selectable
+    } = this.props;
 
-    window.addEventListener('mouseup', this.onMouseUp, false);
-    window.addEventListener('mousemove', this.onMouseMove, false);
+    if (selectable) {
+      const { id } = this.props.moduleDef;
+      this.props.selectModule(id);
+
+      window.addEventListener('mouseup', this.onMouseUp, false);
+      window.addEventListener('mousemove', this.onMouseMove, false);
+    }
   }
 
   onMouseUp () {
@@ -39,6 +45,11 @@ class Module extends React.Component {
 
     this.props.setModulePosition(id, [clientX, clientY]);
   }
+  
+  componentDidMount() {
+    const dragGroup = this.refs.dragGroup;
+    dragGroup.addEventListener('mousedown', this.onMouseDown);
+  }
 
   render () {
     const {
@@ -55,14 +66,10 @@ class Module extends React.Component {
       isSelected ? 'module--selected' : ''
     ].join(' ');
 
-    const onMouseDown = this.onMouseDown.bind(this);
-    const onMouseUp = this.onMouseUp.bind(this);
-
     return (
       <g
+        ref='dragGroup'
         className={className}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
         transform={moduleTranslate}>
         <rect
           className='module__box'

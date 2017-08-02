@@ -6,20 +6,20 @@ class Let extends React.Component {
   constructor (props) {
     super(props);
 
-    this.state = {
-      dragOn: false
-    };
+    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
   }
 
   onMouseDown (pr, evt) {
-    window.addEventListener('mouseup', this.onMouseUp.bind(this), false);
-    
     const {
       moduleId,
       name
     } = this.props;
 
     this.props.selectLet(moduleId, name);
+
+    window.addEventListener('mouseup', this.onMouseUp.bind(this), false);
   }
 
   onMouseUp () {
@@ -28,23 +28,23 @@ class Let extends React.Component {
     this.props.unselectLet();
   }
 
+  componentDidMount () {
+    const dragGroup = this.refs.dragGroup;
+    dragGroup.addEventListener('mousedown', this.onMouseDown);
+  }
+
   render () {
     const {
       inlet,
       name,
-      index
+      index,
+      selected
     } = this.props;
-    const {
-      dragOn
-    } = this.state;
     const className = [
       'let',
       inlet ? 'let--in' : 'let--out',
-      dragOn ? 'let--selected' : ''
+      selected ? 'let--selected' : ''
     ].join(' ');
-
-    const onMouseDown = this.onMouseDown.bind(this);
-    const onMouseUp = this.onMouseUp.bind(this);
 
     const x = inlet
       ? 4
@@ -52,11 +52,11 @@ class Let extends React.Component {
     const y = 32 + (16 * index);
 
     return (
-      <g className={className}>
+      <g
+        ref='dragGroup'
+        className={className}>
         <rect
           className='let__rect'
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
           x={x}
           y={y} />
         <text

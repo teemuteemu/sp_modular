@@ -11,7 +11,8 @@ import Module from './Module';
 
 function mapStateToProps (state, props) {
   return {
-    isSelected: state.patch.selectedModule === props.moduleDef.id
+    isSelected: state.patch.selectedModule === props.moduleDef.id,
+    selectable: !!!state.patch.selectedLet
   };
 }
 
