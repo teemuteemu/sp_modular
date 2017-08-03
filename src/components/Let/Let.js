@@ -8,7 +8,12 @@ class Let extends React.Component {
 
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
+
+    this.state = {
+      canConnect: null
+    };
   }
 
   onMouseDown (pr, evt) {
@@ -28,9 +33,40 @@ class Let extends React.Component {
     this.props.unselectLet();
   }
 
+  onMouseOut () {
+    this.setState({
+      canConnect: null
+    });
+  }
+
+  onMouseOver () {
+    const {
+      inlet,
+      name,
+      moduleId,
+      index,
+      selectedLet,
+      isSelected
+    } = this.props;
+
+    if (selectedLet.name && selectedLet.moduleId && selectedLet.name !== name && selectedLet.moduleId !== moduleId) {
+      const newNet = [
+        `${selectedLet.name}_${selectedLet.moduleId}`,
+        `${name}_${moduleId}`
+      ];
+      console.log(newNet)
+
+      this.setState({
+        canConnect: newNet
+      });
+    }
+  }
+
   componentDidMount () {
     const dragGroup = this.refs.dragGroup;
     dragGroup.addEventListener('mousedown', this.onMouseDown);
+    dragGroup.addEventListener('mouseover', this.onMouseOver);
+    dragGroup.addEventListener('mouseout', this.onMouseOut);
   }
 
   render () {
@@ -38,12 +74,13 @@ class Let extends React.Component {
       inlet,
       name,
       index,
-      selected
+      isSelected
     } = this.props;
     const className = [
       'let',
       inlet ? 'let--in' : 'let--out',
-      selected ? 'let--selected' : ''
+      isSelected ? 'let--selected' : '',
+      this.state.canConnect ? 'let--connect' : ''
     ].join(' ');
 
     const x = inlet

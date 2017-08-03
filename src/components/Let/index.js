@@ -9,14 +9,15 @@ import {
 import Let from './Let';
 
 function mapStateToProps (state, props) {
-  const selectLet = state.patch.selectedLet || {};
+  const selectedLet = state.patch.selectedLet || {};
   const {
     name,
     moduleId
-  } = selectLet;
+  } = selectedLet;
 
   return {
-    selected: name === props.name && moduleId === props.moduleId
+    selectedLet,
+    isSelected: name === props.name && moduleId === props.moduleId
   };
 }
 

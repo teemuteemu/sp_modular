@@ -7,15 +7,21 @@ import VCA from '../../audio/modules/VCA';
 
 const ACTIONS = {
   REFRESH: 'PATCH/ACTION/REFRESH',
+
   ADD_MODULE: 'PATCH/ACTION/ADD_MODULE',
   REMOVE_MODULE: 'PATCH/ACTION/REMOVE_MODULE',
+
   ADD_NET: 'PATCH/ACTION/ADD_NET',
   REMOVE_NET: 'PATCH/ACTION/REMOVE_NET',
+
   SELECT_MODULE: 'PATCH/ACTION/SELECT_MODULE',
   UNSELECT_MODULE: 'PATCH/ACTION/UNSELECT_MODULE',
-  SET_MODULE_POSITION: 'PATCH/ACTION/SET_MODULE_POSITION',
+
   SELECT_LET: 'PATCH/ACTION/SELECT_LET',
-  UNSELECT_LET: 'PATCH/ACTION/UNSELECT_LET'
+  UNSELECT_LET: 'PATCH/ACTION/UNSELECT_LET',
+
+  SET_MODULE_POSITION: 'PATCH/ACTION/SET_MODULE_POSITION'
+
 };
 
 const audioOut = new AudioOut();
@@ -88,14 +94,6 @@ export function unselectModule () {
   };
 }
 
-export function setModulePosition (moduleId, coordinates) {
-  return {
-    type: ACTIONS.SET_MODULE_POSITION,
-    moduleId,
-    coordinates
-  };
-}
-
 export function selectLet (moduleId, name) {
   return {
     type: ACTIONS.SELECT_LET,
@@ -107,6 +105,14 @@ export function selectLet (moduleId, name) {
 export function unselectLet () {
   return {
     type: ACTIONS.UNSELECT_LET
+  };
+}
+
+export function setModulePosition (moduleId, coordinates) {
+  return {
+    type: ACTIONS.SET_MODULE_POSITION,
+    moduleId,
+    coordinates
   };
 }
 
@@ -140,14 +146,6 @@ export default function (patch = initialState, action) {
         selectedModule: null
       });
 
-    case ACTIONS.SET_MODULE_POSITION:
-      const moduleIndex = patch.modules.indexOf(patch.modules.find(m => m.id === action.moduleId));
-      const newState = Object.assign({}, patch);
-      if (moduleIndex >= 0) {
-        newState.modules[moduleIndex].position = action.coordinates;
-      }
-      return newState;
-
     case ACTIONS.SELECT_LET:
       const {
         name,
@@ -164,6 +162,14 @@ export default function (patch = initialState, action) {
       return Object.assign({}, patch, {
         selectedLet: null
       });
+
+    case ACTIONS.SET_MODULE_POSITION:
+      const moduleIndex = patch.modules.indexOf(patch.modules.find(m => m.id === action.moduleId));
+      const newState = Object.assign({}, patch);
+      if (moduleIndex >= 0) {
+        newState.modules[moduleIndex].position = action.coordinates;
+      }
+      return newState;
   }
 
   return patch;
