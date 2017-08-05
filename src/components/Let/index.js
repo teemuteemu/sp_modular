@@ -2,29 +2,35 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import {
-  selectLet,
-  unselectLet
+  selectLetFrom,
+  selectLetTo,
+  unselectLetFrom,
+  unselectLetTo,
+  connectLets
 } from 'store/reducers/patch';
 
 import Let from './Let';
 
 function mapStateToProps (state, props) {
-  const selectedLet = state.patch.selectedLet || {};
+  const selectedLetFrom = state.patch.selectedLetFrom || {};
   const {
     name,
     moduleId
-  } = selectedLet;
+  } = selectedLetFrom;
 
   return {
-    selectedLet,
+    selectedLetFrom,
     isSelected: name === props.name && moduleId === props.moduleId
   };
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    selectLet: bindActionCreators(selectLet, dispatch),
-    unselectLet: bindActionCreators(unselectLet, dispatch)
+    selectLetFrom: bindActionCreators(selectLetFrom, dispatch),
+    selectLetTo: bindActionCreators(selectLetTo, dispatch),
+    unselectLetFrom: bindActionCreators(unselectLetFrom, dispatch),
+    unselectLetTo: bindActionCreators(unselectLetTo, dispatch),
+    connectLets: bindActionCreators(connectLets, dispatch)
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Let);

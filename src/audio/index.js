@@ -107,17 +107,27 @@ function createScriptProcessorFunction (state) {
   return Function('evt', functionString);
 }
 
+let node;
+
 const initAudio = (state) => {
-  const node = context.createScriptProcessor(config.BUFFER_SIZE, 1, 1);
-  const scriptProcessorCallback = createScriptProcessorFunction(state);
-
-  node.onaudioprocess = scriptProcessorCallback;
-
+  node = context.createScriptProcessor(config.BUFFER_SIZE, 1, 1);
   node.connect(context.destination);
+
+  refreshAudio(state);
 };
 
+const refreshAudio = (state) => {
+  if (node) {
+    const scriptProcessorCallback = createScriptProcessorFunction(state);
+    node.onaudioprocess = scriptProcessorCallback;
+  } else {
+    console.error('refreshAudio called before initAudio');
+  }
+}
+
 const Audio = {
-  initAudio
+  initAudio,
+  refreshAudio
 };
 
 export default Audio;

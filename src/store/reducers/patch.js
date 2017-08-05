@@ -17,8 +17,11 @@ const ACTIONS = {
   SELECT_MODULE: 'PATCH/ACTION/SELECT_MODULE',
   UNSELECT_MODULE: 'PATCH/ACTION/UNSELECT_MODULE',
 
-  SELECT_LET: 'PATCH/ACTION/SELECT_LET',
-  UNSELECT_LET: 'PATCH/ACTION/UNSELECT_LET',
+  SELECT_LET_FROM: 'PATCH/ACTION/SELECT_LET_FROM',
+  SELECT_LET_TO: 'PATCH/ACTION/SELECT_LET_TO',
+  UNSELECT_LET_FROM: 'PATCH/ACTION/UNSELECT_LET_FROM',
+  UNSELECT_LET_TO: 'PATCH/ACTION/UNSELECT_LET_TO',
+  CONNECT_LETS: 'PATCH/ACTION/CONNECT_LETS',
 
   SET_MODULE_POSITION: 'PATCH/ACTION/SET_MODULE_POSITION'
 
@@ -39,11 +42,14 @@ const initialState = {
     pulse
   ],
   selectedModule: null,
-  selectedLet: null,
+  selectedLetFrom: null,
+  selectedLetTo: null,
   nets: [
+    /*
     [pulse.outlet('OUT'), vca.inlet('AUDIO')],
     [noiseCV.outlet('OUT'), vca.inlet('CV')],
     [vca.outlet('OUT'), audioOut.inlet('IN')]
+    */
   ]
 };
 
@@ -94,18 +100,40 @@ export function unselectModule () {
   };
 }
 
-export function selectLet (moduleId, name) {
+export function selectLetFrom (inlet, moduleId, name) {
   return {
-    type: ACTIONS.SELECT_LET,
+    type: ACTIONS.SELECT_LET_FROM,
+    inlet,
     moduleId,
     name
   };
 }
 
-export function unselectLet () {
+export function selectLetTo (inlet, moduleId, name) {
   return {
-    type: ACTIONS.UNSELECT_LET
+    type: ACTIONS.SELECT_LET_TO,
+    inlet,
+    moduleId,
+    name
   };
+}
+
+export function unselectLetFrom () {
+  return {
+    type: ACTIONS.UNSELECT_LET_FROM
+  };
+}
+
+export function unselectLetTo () {
+  return {
+    type: ACTIONS.UNSELECT_LET_TO
+  };
+}
+
+export function connectLets () {
+  return {
+    type: ACTIONS.CONNECT_LETS
+  }
 }
 
 export function setModulePosition (moduleId, coordinates) {
@@ -146,22 +174,59 @@ export default function (patch = initialState, action) {
         selectedModule: null
       });
 
-    case ACTIONS.SELECT_LET:
-      const {
-        name,
-        moduleId
-      } = action;
+    case ACTIONS.SELECT_LET_FROM:
       return Object.assign({}, patch, {
-        selectedLet: {
-          name,
-          moduleId
+        selectedLetFrom: {
+          inlet: action.inlet,
+          name: action.name,
+          moduleId: action.moduleId
         }
       });
 
-    case ACTIONS.UNSELECT_LET:
+    case ACTIONS.SELECT_LET_TO:
       return Object.assign({}, patch, {
-        selectedLet: null
+        selectedLetTo: {
+          inlet: action.inlet,
+          name: action.name,
+          moduleId: action.moduleId
+        }
       });
+
+    case ACTIONS.UNSELECT_LET_FROM:
+      return Object.assign({}, patch, {
+        selectedLetFrom: null,
+      });
+
+    case ACTIONS.UNSELECT_LET_TO:
+      return Object.assign({}, patch, {
+        selectedLetTo: null,
+      });
+
+    case ACTIONS.CONNECT_LETS:
+      const {
+        selectedLetFrom,
+        selectedLetTo
+      } = patch;
+
+      if (selectedLetFrom && selectedLetTo) {
+        if (selectedLetFrom.inlet !== selectedLetTo.inlet) {
+          const from = `${selectedLetFrom.name}_${selectedLetFrom.moduleId}`;
+          const to = `${selectedLetTo.name}_${selectedLetTo.moduleId}`;
+          const net = [ from ];
+          const method = selectedLetTo.inlet
+            ? 'push'
+            : 'unshift';
+          net[method](to);
+
+          patch.nets.push(net);
+
+          Audio.refreshAudio(patch);
+
+          return Object.assign({}, patch);
+        }
+      }
+
+      return patch;
 
     case ACTIONS.SET_MODULE_POSITION:
       const moduleIndex = patch.modules.indexOf(patch.modules.find(m => m.id === action.moduleId));

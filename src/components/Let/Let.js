@@ -18,22 +18,30 @@ class Let extends React.Component {
 
   onMouseDown (pr, evt) {
     const {
+      inlet,
       moduleId,
       name
     } = this.props;
 
-    this.props.selectLet(moduleId, name);
+    this.props.selectLetFrom(inlet, moduleId, name);
 
     window.addEventListener('mouseup', this.onMouseUp.bind(this), false);
   }
 
   onMouseUp () {
     window.removeEventListener('mouseup', this.onMouseUp.bind(this), false);
-
-    this.props.unselectLet();
+    
+    this.props.connectLets();
+    this.props.unselectLetFrom();
   }
 
   onMouseOut () {
+    const {
+      unselectLetTo
+    } = this.props;
+
+    unselectLetTo();
+
     this.setState({
       canConnect: null
     });
@@ -45,19 +53,28 @@ class Let extends React.Component {
       name,
       moduleId,
       index,
-      selectedLet,
-      isSelected
+      selectedLetFrom,
+      isSelected,
+      selectLetTo
     } = this.props;
 
-    if (selectedLet.name && selectedLet.moduleId && selectedLet.name !== name && selectedLet.moduleId !== moduleId) {
-      const newNet = [
-        `${selectedLet.name}_${selectedLet.moduleId}`,
-        `${name}_${moduleId}`
-      ];
-      console.log(newNet)
+    if (
+      selectedLetFrom.name 
+      && selectedLetFrom.moduleId
+      && selectedLetFrom.name !== name 
+      && selectedLetFrom.moduleId !== moduleId
+      && selectedLetFrom.inlet !== inlet
+    ) {
+      const thisLet = {
+        inlet,
+        name,
+        moduleId
+      };
+
+      selectLetTo(inlet, moduleId, name);
 
       this.setState({
-        canConnect: newNet
+        canConnect: true
       });
     }
   }

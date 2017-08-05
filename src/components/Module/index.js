@@ -12,7 +12,7 @@ import Module from './Module';
 function mapStateToProps (state, props) {
   return {
     isSelected: state.patch.selectedModule === props.moduleDef.id,
-    selectable: !!!state.patch.selectedLet
+    selectable: !!!state.patch.selectedLetFrom
   };
 }
 
