@@ -29,10 +29,10 @@ class Patcher extends React.Component {
     const inIndex = inModule.inlets.indexOf(inLet);
     const outIndex = outModule.outlets.indexOf(outLet);
 
-    const inX = inModule.position[0] + 8;
-    const inY = inModule.position[1] + 36 + (18 * inIndex);
-    const outX = outModule.position[0] + 126;
-    const outY = outModule.position[1] + 38 + (18 * outIndex);
+    const inX = inModule.position[0] + 12;
+    const inY = inModule.position[1] + 32 + (16 * inIndex);
+    const outX = outModule.position[0] + 128;
+    const outY = outModule.position[1] + 32 + (16 * outIndex);
 
     return [
       [ inX, inY ],

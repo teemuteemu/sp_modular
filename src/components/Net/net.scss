@@ -1,5 +1,9 @@
 .net {
   fill: none;
-  stroke: red;
+  stroke: orange;
   stroke-width: 3px;
+
+  &--selected {
+    stroke: red;
+  }
 }

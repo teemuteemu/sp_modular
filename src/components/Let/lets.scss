@@ -3,13 +3,12 @@
     fill: red;
   }
 
-  &__rect {
-    width: 12px;
-    height: 12px;
-    fill: blue;
-  }
-
   &--connect {
     fill: red;
+  }
+
+  &__socket {
+    fill: blue;
+    r: 6;
   }
 }

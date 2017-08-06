@@ -94,6 +94,7 @@ function createScriptProcessorFunction (state) {
 
   const functionString = `
     const GLOBAL_OUT_BUFFER = evt.outputBuffer.getChannelData(0);
+    const GLOBAL_BUFFER_SIZE = ${config.BUFFER_SIZE};
 
     ${variableDeclr}
 

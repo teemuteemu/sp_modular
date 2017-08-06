@@ -88,35 +88,42 @@ class Let extends React.Component {
 
   render () {
     const {
+      canConnect
+    } = this.state;
+    const {
       inlet,
       name,
       index,
       isSelected
     } = this.props;
+
     const className = [
       'let',
       inlet ? 'let--in' : 'let--out',
-      isSelected ? 'let--selected' : '',
-      this.state.canConnect ? 'let--connect' : ''
+      isSelected || canConnect ? 'let--selected' : ''
     ].join(' ');
 
-    const x = inlet
-      ? 4
-      : 120;
-    const y = 32 + (16 * index);
+    const sx = inlet
+      ? 12
+      : 128;
+    const sy = 32 + (16 * index);
+    const tx = inlet
+      ? sx + 12
+      : sx - 44;
+    const ty = sy + 6;
 
     return (
       <g
         ref='dragGroup'
         className={className}>
-        <rect
-          className='let__rect'
-          x={x}
-          y={y} />
+        <circle
+          className='let__socket'
+          cx={sx}
+          cy={sy} />
         <text
           className='let__name'
-          x={x + 16}
-          y={y + 12}>
+          x={tx}
+          y={ty}>
           { name }
         </text>
       </g>

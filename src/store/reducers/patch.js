@@ -4,6 +4,7 @@ import AudioOut from '../../audio/modules/AudioOut';
 import Noise from '../../audio/modules/Noise';
 import Pulse from '../../audio/modules/Pulse';
 import VCA from '../../audio/modules/VCA';
+import LFO from '../../audio/modules/LFO';
 
 const ACTIONS = {
   REFRESH: 'PATCH/ACTION/REFRESH',
@@ -22,6 +23,7 @@ const ACTIONS = {
   UNSELECT_LET_FROM: 'PATCH/ACTION/UNSELECT_LET_FROM',
   UNSELECT_LET_TO: 'PATCH/ACTION/UNSELECT_LET_TO',
   CONNECT_LETS: 'PATCH/ACTION/CONNECT_LETS',
+  DISCONNECT_LETS: 'PATCH/ACTION/DISCONNECT_LETS',
 
   SET_MODULE_POSITION: 'PATCH/ACTION/SET_MODULE_POSITION'
 
@@ -31,6 +33,7 @@ const audioOut = new AudioOut();
 const noise = new Noise();
 const pulse = new Pulse();
 const vca = new VCA();
+const lfo = new LFO();
 const noiseCV = new Noise();
 
 const initialState = {
@@ -38,6 +41,7 @@ const initialState = {
     audioOut,
     noise,
     vca,
+    lfo,
     noiseCV,
     pulse
   ],
@@ -136,6 +140,13 @@ export function connectLets () {
   }
 }
 
+export function disconnectLets (net) {
+  return {
+    type: ACTIONS.DISCONNECT_LETS,
+    net
+  }
+}
+
 export function setModulePosition (moduleId, coordinates) {
   return {
     type: ACTIONS.SET_MODULE_POSITION,
@@ -227,6 +238,18 @@ export default function (patch = initialState, action) {
       }
 
       return patch;
+
+    case ACTIONS.DISCONNECT_LETS:
+      const {
+        net
+      } = action;
+      const newNets = patch.nets
+        .filter(n => n[0] !== net[0] && n[1] !== net[1]);
+      const newPatch = Object.assign({}, patch, { nets: newNets });
+      
+      Audio.refreshAudio(newPatch);
+
+      return newPatch;
 
     case ACTIONS.SET_MODULE_POSITION:
       const moduleIndex = patch.modules.indexOf(patch.modules.find(m => m.id === action.moduleId));

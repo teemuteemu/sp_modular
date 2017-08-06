@@ -3,7 +3,7 @@
 .module {
   &--selected {
     .module__box {
-      fill: darken($color_bg, 50%);
+      fill: darken($color_bg, 10%);
     }
   }
 
