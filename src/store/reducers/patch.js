@@ -244,7 +244,7 @@ export default function (patch = initialState, action) {
         net
       } = action;
       const newNets = patch.nets
-        .filter(n => n[0] !== net[0] && n[1] !== net[1]);
+        .filter(n => !(n[0] === net[0] && n[1] === net[1]));
       const newPatch = Object.assign({}, patch, { nets: newNets });
       
       Audio.refreshAudio(newPatch);
