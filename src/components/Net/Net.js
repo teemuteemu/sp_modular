@@ -27,15 +27,15 @@ class Net extends React.Component {
   }
 
   onMouseOver () {
-    this.state = {
+    this.setState({
       mouseOver: true
-    };
+    });
   }
 
   onMouseOut () {
-    this.state = {
+    this.setState({
       mouseOver: false
-    };
+    });
   }
 
   componentDidMount () {
@@ -43,6 +43,13 @@ class Net extends React.Component {
     net.addEventListener('mouseover', this.onMouseOver);
     net.addEventListener('mouseout', this.onMouseOut);
     net.addEventListener('mousedown', this.onMouseDown);
+  }
+
+  componentWillUnmount () {
+    const net = this.refs.net;
+    net.removeEventListener('mouseover', this.onMouseOver);
+    net.removeEventListener('mouseout', this.onMouseOut);
+    net.removeEventListener('mousedown', this.onMouseDown);
   }
 
   render () {

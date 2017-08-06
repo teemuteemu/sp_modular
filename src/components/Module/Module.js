@@ -51,6 +51,11 @@ class Module extends React.Component {
     dragGroup.addEventListener('mousedown', this.onMouseDown);
   }
 
+  componentWillUnmount () {
+    const dragGroup = this.refs.dragGroup;
+    dragGroup.removeEventListener('mousedown', this.onMouseDown);
+  }
+
   render () {
     const {
       moduleDef,
