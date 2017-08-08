@@ -82,27 +82,32 @@ function flatten (arr) {
 }
 
 function createScriptProcessorFunction (state) {
+  let functionString;
   const rootNode = state.modules
     .filter(m => m.rootNode)[0];
-  const src = flatten(walkTree(rootNode, state));
 
-  const variableDeclr = state.modules
-    .map(m => m.lets())
-    .reduce((p, c) => p.concat(c))
-    .map(n => `let ${n} = [];`)
-    .join(' ');
+  if (rootNode) {
+    const src = flatten(walkTree(rootNode, state));
 
-  const functionString = `
-    const GLOBAL_OUT_BUFFER = evt.outputBuffer.getChannelData(0);
-    const GLOBAL_BUFFER_SIZE = ${config.BUFFER_SIZE};
+    const variableDeclr = state.modules
+      .map(m => m.lets())
+      .reduce((p, c) => p.concat(c))
+      .map(n => `let ${n} = [];`)
+      .join(' ');
 
-    ${variableDeclr}
+    functionString = `
+      const GLOBAL_OUT_BUFFER = evt.outputBuffer.getChannelData(0);
+      const GLOBAL_BUFFER_SIZE = ${config.BUFFER_SIZE};
 
-    for (let i = 0; i < GLOBAL_OUT_BUFFER.length; i++) {
-      ${src.join(' ')}
-    }
-  `;
+      ${variableDeclr}
 
+      for (let i = 0; i < GLOBAL_OUT_BUFFER.length; i++) {
+        ${src.join(' ')}
+      }
+    `;
+  } else {
+    functionString = '';
+  }
   // console.log(functionString);
 
   return Function('evt', functionString);

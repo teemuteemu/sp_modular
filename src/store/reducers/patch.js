@@ -29,31 +29,13 @@ const ACTIONS = {
 
 };
 
-const audioOut = new AudioOut();
-const noise = new Noise();
-const pulse = new Pulse();
-const vca = new VCA();
-const lfo = new LFO();
-const noiseCV = new Noise();
-
 const initialState = {
-  modules: [
-    audioOut,
-    noise,
-    vca,
-    lfo,
-    noiseCV,
-    pulse
-  ],
   selectedModule: null,
   selectedLetFrom: null,
   selectedLetTo: null,
+  modules: [
+  ],
   nets: [
-    /*
-    [pulse.outlet('OUT'), vca.inlet('AUDIO')],
-    [noiseCV.outlet('OUT'), vca.inlet('CV')],
-    [vca.outlet('OUT'), audioOut.inlet('IN')]
-    */
   ]
 };
 
