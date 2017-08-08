@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Let from 'components/Let';
+import Parameter from 'components/Parameter';
 
 import './module.scss';
 
@@ -90,6 +91,10 @@ class Module extends React.Component {
           className='module__lets'>
           { moduleDef.inlets.map((l, i) => <Let inlet={true} key={i} moduleId={moduleDef.id} name={l} index={i} />) }
           { moduleDef.outlets.map((l, i) => <Let inlet={false} key={i} moduleId={moduleDef.id} name={l} index={i} />) }
+        </g>
+        <g
+          className='module__params'>
+          { Object.keys(moduleDef.params).map((p, i) => <Parameter key={i} param={p} />) }
         </g>
       </g>
     );

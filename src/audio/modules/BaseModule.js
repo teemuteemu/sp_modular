@@ -12,6 +12,7 @@ export default class BaseModule {
 
     this.inlets = [];
     this.outlets = [];
+    this.params = {};
   }
 
   lets () {
@@ -35,6 +36,14 @@ export default class BaseModule {
     }
 
     return null;
+  }
+
+  parameter (paramName) {
+    const param = this.params[paramName]
+    const value = param && param.value
+      ? param.value
+      : 0;
+    return value;
   }
 
   src () {
