@@ -1,10 +1,7 @@
 import Audio from '../../audio';
-
-import AudioOut from '../../audio/modules/AudioOut';
-import Noise from '../../audio/modules/Noise';
-import Pulse from '../../audio/modules/Pulse';
-import VCA from '../../audio/modules/VCA';
-import LFO from '../../audio/modules/LFO';
+import {
+  hashNet
+} from '../../helpers';
 
 const ACTIONS = {
   REFRESH: 'PATCH/ACTION/REFRESH',
@@ -33,10 +30,8 @@ const initialState = {
   selectedModule: null,
   selectedLetFrom: null,
   selectedLetTo: null,
-  modules: [
-  ],
-  nets: [
-  ]
+  modules: {},
+  nets: {}
 };
 
 export function refresh () {
@@ -144,8 +139,13 @@ export default function (patch = initialState, action) {
       return patch;
 
     case ACTIONS.ADD_MODULE:
-      patch.modules.push(action.module);
-      return patch;
+      const {
+        module
+      } = action;
+
+      patch.modules[module.id] = module;
+
+      return Object.assign({}, patch);
 
     case ACTIONS.REMOVE_MODULE:
       return patch.modules.filter(m => m.id !== action.id);
@@ -210,11 +210,13 @@ export default function (patch = initialState, action) {
             ? 'push'
             : 'unshift';
           net[method](to);
+          const netHash = hashNet(net);
 
-          patch.nets.push(net);
+          if (!patch.nets[netHash]) {
+            patch.nets[netHash] = net;
+          }
 
           Audio.refreshAudio(patch);
-
           return Object.assign({}, patch);
         }
       }
@@ -225,15 +227,20 @@ export default function (patch = initialState, action) {
       const {
         net
       } = action;
-      const newNets = patch.nets
-        .filter(n => !(n[0] === net[0] && n[1] === net[1]));
-      const newPatch = Object.assign({}, patch, { nets: newNets });
-      
-      Audio.refreshAudio(newPatch);
+      const netHash = hashNet(net);
 
-      return newPatch;
+      if (patch.nets[netHash]) {
+        patch.nets[netHash] = undefined;
+        delete patch.nets[netHash];
+      }
+      
+      Audio.refreshAudio(patch);
+      return Object.assign({}, patch);
 
     case ACTIONS.SET_MODULE_POSITION:
+      patch.modules[action.moduleId].position = action.coordinates;
+      return Object.assign({}, patch);
+
       const moduleIndex = patch.modules.indexOf(patch.modules.find(m => m.id === action.moduleId));
       const newState = Object.assign({}, patch);
       if (moduleIndex >= 0) {

@@ -5,8 +5,13 @@ const config = {
   BUFFER_SIZE: 2048
 };
 
+function objToArray (obj) {
+  return Object.keys(obj)
+    .map(id => obj[id]);
+}
+
 function getNets (nets, lt) {
-  return nets.filter(n => n[1] === lt);
+  return objToArray(nets).filter(n => n[1] === lt);
 }
 
 function getNodeInlets (node) {
@@ -55,7 +60,7 @@ function getChildNodes (node, state) {
       return fs[fs.length - 1];
     });
   const childNodes = childNodeIds
-    .map(cid => state.modules.filter(m => m.id === cid))
+    .map(cid => state.modules[cid])
     .reduce((p, c) => p.concat(c), []);
 
   return childNodes;
@@ -83,13 +88,15 @@ function flatten (arr) {
 
 function createScriptProcessorFunction (state) {
   let functionString;
-  const rootNode = state.modules
+
+  // TODO rootNode is problematic hax0r workaround
+  const rootNode = objToArray(state.modules)
     .filter(m => m.rootNode)[0];
 
   if (rootNode) {
     const src = flatten(walkTree(rootNode, state));
 
-    const variableDeclr = state.modules
+    const variableDeclr = objToArray(state.modules)
       .map(m => m.lets())
       .reduce((p, c) => p.concat(c))
       .map(n => `let ${n} = [];`)
@@ -116,8 +123,10 @@ function createScriptProcessorFunction (state) {
 let node;
 
 const initAudio = (state) => {
-  node = context.createScriptProcessor(config.BUFFER_SIZE, 1, 1);
-  node.connect(context.destination);
+  if (!node) {
+    node = context.createScriptProcessor(config.BUFFER_SIZE, 1, 1);
+    node.connect(context.destination);
+  }
 
   refreshAudio(state);
 };
