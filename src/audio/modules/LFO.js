@@ -11,15 +11,13 @@ export default class NoiseModule extends BaseModule {
       'OUT'
     ];
 
-    /*
     this.params = {
       'PITCH': {
         type: 'number',
-        range: [0, 1],
+        range: 256,
         value: 1
       }
     };
-    */
   }
 
   src () {

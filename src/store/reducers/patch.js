@@ -23,6 +23,7 @@ const ACTIONS = {
   CONNECT_LETS: 'PATCH/ACTION/CONNECT_LETS',
   DISCONNECT_LETS: 'PATCH/ACTION/DISCONNECT_LETS',
 
+  SET_MODULE_PARAMETER: 'PATCH/ACTION/SET_MODULE_PARAMETER',
   SET_MODULE_POSITION: 'PATCH/ACTION/SET_MODULE_POSITION'
 };
 
@@ -121,8 +122,17 @@ export function disconnectLets (net) {
   return {
     type: ACTIONS.DISCONNECT_LETS,
     net
-  }
-}
+  };
+};
+
+export function setModuleParameter (name, moduleId, value) {
+  return {
+    type: ACTIONS.SET_MODULE_PARAMETER,
+    name,
+    moduleId,
+    value
+  };
+};
 
 export function setModulePosition (moduleId, coordinates) {
   return {
@@ -235,6 +245,17 @@ export default function (patch = initialState, action) {
       }
       
       Audio.refreshAudio(patch);
+      return Object.assign({}, patch);
+
+    case ACTIONS.SET_MODULE_PARAMETER:
+      const {
+        name,
+        moduleId,
+        value
+      } = action;
+      patch.modules[moduleId].params[name].value = parseFloat(value);
+      Audio.refreshAudio(patch);
+
       return Object.assign({}, patch);
 
     case ACTIONS.SET_MODULE_POSITION:
