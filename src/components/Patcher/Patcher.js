@@ -10,6 +10,7 @@ import Noise from '../../audio/modules/Noise';
 import Pulse from '../../audio/modules/Pulse';
 import VCA from '../../audio/modules/VCA';
 import LFO from '../../audio/modules/LFO';
+import Range from '../../audio/modules/Range';
 
 class Patcher extends React.Component {
   componentDidMount () {
@@ -21,7 +22,8 @@ class Patcher extends React.Component {
     addModule(new AudioOut({ position: [ window.innerWidth - 150, 10 ] }));
     addModule(new Noise({ position: [ window.innerWidth / 2, 10] }));
     addModule(new Pulse({ position: [ window.innerWidth / 2, 220 ] }));
-    addModule(new LFO());
+    addModule(new VCA());
+    addModule(new Range());
     refresh();
   }
 

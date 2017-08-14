@@ -14,7 +14,7 @@ class Module extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this);
   }
 
-  onMouseDown (prox, evt) {
+  onMouseDown (evt) {
     const {
       selectable
     } = this.props;
@@ -23,16 +23,16 @@ class Module extends React.Component {
       const { id } = this.props.moduleDef;
       this.props.selectModule(id);
 
-      window.addEventListener('mouseup', this.onMouseUp, false);
-      window.addEventListener('mousemove', this.onMouseMove, false);
+      window.addEventListener('mouseup', this.onMouseUp);
+      window.addEventListener('mousemove', this.onMouseMove);
     }
   }
 
   onMouseUp () {
     this.props.unselectModule();
 
-    window.removeEventListener('mouseup', this.onMouseUp, false);
-    window.removeEventListener('mousemove', this.onMouseMove, false);
+    window.removeEventListener('mouseup', this.onMouseUp);
+    window.removeEventListener('mousemove', this.onMouseMove);
   }
 
   onMouseMove (evt) {
@@ -49,7 +49,7 @@ class Module extends React.Component {
   
   componentDidMount() {
     const dragGroup = this.refs.dragGroup;
-    dragGroup.addEventListener('mousedown', this.onMouseDown);
+    dragGroup.addEventListener('mousedown', this.onMouseDown, false);
   }
 
   componentWillUnmount () {

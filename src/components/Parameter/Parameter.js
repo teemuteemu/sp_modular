@@ -9,7 +9,7 @@ const Parameter = (props) => {
   } = props;
 
   function handleChange (evt) {
-    evt.preventDefault();
+    // evt.preventDefault();
     evt.stopPropagation();
     // ^^ ??
 
@@ -21,7 +21,7 @@ const Parameter = (props) => {
   }
 
   return (
-    <foreignObject x='10' y='10' width='300' height='300'>
+    <foreignObject x='10' y='60' width='120' height='120'>
       <div xmlns='http://www.w3.org/1999/xhtml'>
         <input
           type='range'
