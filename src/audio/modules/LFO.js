@@ -1,8 +1,8 @@
 import BaseModule from './BaseModule';
 
 export default class NoiseModule extends BaseModule {
-  constructor () {
-    super();
+  constructor (options) {
+    super(options);
 
     this.name = 'LFO';
     this.description = 'Low frequency oscillator.';

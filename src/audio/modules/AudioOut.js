@@ -1,8 +1,8 @@
 import BaseModule from './BaseModule';
 
 export default class AudioOutModule extends BaseModule {
-  constructor () {
-    super();
+  constructor (options) {
+    super(options);
 
     this.name = 'Audio Out';
     this.description = 'Master audio out node.';

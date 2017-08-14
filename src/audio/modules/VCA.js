@@ -1,8 +1,8 @@
 import BaseModule from './BaseModule';
 
 export default class VCAModule extends BaseModule {
-  constructor () {
-    super();
+  constructor (options) {
+    super(options);
 
     this.name = 'VCA';
     this.description = '"Voltage" controlled amplifier.';

@@ -18,9 +18,9 @@ class Patcher extends React.Component {
       addModule
     } = this.props;
 
-    addModule(new AudioOut());
-    addModule(new Noise());
-    addModule(new Pulse());
+    addModule(new AudioOut({ position: [ window.innerWidth - 150, 10 ] }));
+    addModule(new Noise({ position: [ window.innerWidth / 2, 10] }));
+    addModule(new Pulse({ position: [ window.innerWidth / 2, 220 ] }));
     refresh();
   }
 

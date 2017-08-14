@@ -1,18 +1,21 @@
 import { guid } from '../../helpers';
 
-export default class BaseModule {
-  constructor () {
-    this.id = guid();
-    this.name = 'Untitled module';
-    this.description = 'No description available';
-    this.position = [
-      Math.random() * (window.innerWidth / 2),
-      Math.random() * (window.innerHeight / 2)
-    ];
+const defaultOptions = {
+  name: 'Untitled module',
+  description: '-',
+  position: [ Math.random() * (window.innerWidth / 2), Math.random() * (window.innerHeight / 2) ],
+  inlets: [],
+  outlets: [],
+  params: {}
+}
 
-    this.inlets = [];
-    this.outlets = [];
-    this.params = {};
+export default class BaseModule {
+  constructor (params) {
+    const options = Object.assign({}, defaultOptions, params);
+    this.id = guid();
+
+    Object.keys(options)
+      .forEach(opt => this[opt] = options[opt]);
   }
 
   lets () {
