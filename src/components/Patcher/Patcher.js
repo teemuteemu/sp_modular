@@ -13,19 +13,26 @@ import LFO from '../../audio/modules/LFO';
 
 class Patcher extends React.Component {
   componentDidMount () {
-    this.props.refresh();
+    const {
+      refresh,
+      addModule
+    } = this.props;
 
-    this.props.addModule(new AudioOut());
-    this.props.addModule(new Noise());
-    this.props.addModule(new Pulse());
+    addModule(new AudioOut());
+    addModule(new Noise());
+    addModule(new Pulse());
+    refresh();
   }
 
   netToCoords (net) {
+    const {
+      patch
+    } = this.props;
     const [output, input] = net;
     const [outLet, outModuleId] = output.split('_');
     const [inLet, inModuleId] = input.split('_');
-    const inModule = this.props.patch.modules[inModuleId];
-    const outModule = this.props.patch.modules[outModuleId];
+    const inModule = patch.modules[inModuleId];
+    const outModule = patch.modules[outModuleId];
     const inIndex = inModule.inlets.indexOf(inLet);
     const outIndex = outModule.outlets.indexOf(outLet);
 
@@ -61,8 +68,9 @@ class Patcher extends React.Component {
 }
 
 Patcher.propTypes = {
-  refresh: React.PropTypes.func,
-  patch: React.PropTypes.object
+  refresh: React.PropTypes.func.isRequired,
+  patch: React.PropTypes.object.isRequired,
+  addModule: React.PropTypes.func.isRequired
 };
 
 export default Patcher;

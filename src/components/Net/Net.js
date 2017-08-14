@@ -86,8 +86,9 @@ class Net extends React.Component {
 };
 
 Net.propTypes = {
-  net: React.PropTypes.array,
-  netToCoords: React.PropTypes.func
+  net: React.PropTypes.array.isRequired,
+  netToCoords: React.PropTypes.func.isRequired,
+  disconnectLets: React.PropTypes.func.isRequired
 };
 
 export default Net;

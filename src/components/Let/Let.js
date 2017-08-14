@@ -131,4 +131,7 @@ class Let extends React.Component {
   }
 }
 
+Let.propTypes = {
+};
+
 export default Let;
